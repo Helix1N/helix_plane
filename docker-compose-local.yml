@@ -140,6 +140,21 @@ services:
       - plane-db
       - plane-redis
 
+  plane-mcp:
+    image: plane-mcp-server:latest
+    restart: unless-stopped
+    networks:
+      - dev_env
+    ports:
+      - "8211:8211"
+    environment:
+      PLANE_BASE_URL: http://api:8000
+      PLANE_API_KEY: ${PLANE_API_KEY}
+      PLANE_WORKSPACE_SLUG: ${PLANE_WORKSPACE_SLUG}
+    command: ["header-http"]
+    depends_on:
+      - api
+
 volumes:
   redisdata:
   uploads:
